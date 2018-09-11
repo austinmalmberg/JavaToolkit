@@ -9,10 +9,6 @@ public class Combinations {
 	
 	public Combinations() {}
 	
-	public <T> Combinations(ArrayList<T> list) {
-		
-	}
-	
 	public <T> List<List<T>> get(List<T> list) {
 		return generate(list).collect(Collectors.toList());
 	}
