@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package com.austin;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,16 +23,17 @@ public class Combinations {
 	private <T> Stream<List<T>> generate(List<T> list) {
 		return generate(list, Collections.emptyList());
 	}
-	
-	private <T> Stream<List<T>> generate(List<T> list, List<T> sub) {
+
+	private <T> Stream<List<T>> generate(List<T> list, List<T> combo) {
 		return IntStream.range(0, list.size()).boxed()
 				.flatMap(i -> {
-					List<T> newSub = addToCombo(sub, list.get(i));
-					return Stream.concat(Stream.of(newSub),	generate(list.subList(i+1, list.size()), newSub).parallel());
+					List<T> newCombo = createNewCombo(combo, list.get(i));
+					return Stream.concat(Stream.of(newCombo),
+							generate(list.subList(i+1, list.size()), newCombo).parallel());
 				});
 	}
-	
-	private <T> List<T> addToCombo(List<T> combo, T t) {
+
+	private <T> List<T> createNewCombo(List<T> combo, T t) {
 		return Stream.concat(combo.stream(), Stream.of(t)).collect(Collectors.toList());
 	}
 }
